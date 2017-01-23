@@ -14,14 +14,18 @@ function INSERT_INTO_cinema($connection) {
             $name = $_POST['name'];
             $address = $_POST['address'];
             
-            
-            $sql = "INSERT INTO `cinema` (`name`, `address`) VALUES ('$name', '$address')";
-            
-            if ($connection->query($sql) === TRUE) {
-                echo '<br><br>New cinema added<br><br>';
-            } 
-            else {
-                echo("<br><br>Error: <br>" . $sql . "<br>" . $connection->error);
+            if (!empty($name) && !empty($address)) {
+                
+                $sql = "INSERT INTO `cinema` (`name`, `address`) VALUES ('$name', '$address')";
+
+                if ($connection->query($sql) === TRUE) {
+                    echo '<br><br>New cinema added<br><br>';
+                } else {
+                    echo("<br><br>Error: <br>" . $sql . "<br>" . $connection->error);
+                }
+            }
+            else{
+                echo 'Incomplete data';
             }
         }
     }

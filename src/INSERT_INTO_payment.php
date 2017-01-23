@@ -10,25 +10,30 @@ function INSERT_INTO_payment($connection) {
             isset($_POST['payment_date'])        ){
 
             $payment_type = $_POST['payment_type'];
+            $payment_date = $_POST['payment_date'];
             
-            if ($payment_type == 'transfer' ||
-                $payment_type == 'cash' ||
-                $payment_type == 'card') {
-                
-                $payment_date = $_POST['payment_date'];
+            
+            if (!empty($payment_type) && !empty($payment_date)) {
+                if ($payment_type == 'transfer' ||
+                        $payment_type == 'cash' ||
+                        $payment_type == 'card') {
 
-                $sql = "INSERT INTO `payment` (`date`, `type`) VALUES ('$payment_date', '$payment_type')";
+                    $sql = "INSERT INTO `payment` (`date`, `type`) VALUES ('$payment_date', '$payment_type')";
 
-                if ($connection->query($sql) === TRUE) {
-                    echo '<br><br>New payment added<br><br>';
+                    if ($connection->query($sql) === TRUE) {
+                        echo '<br><br>New payment added<br><br>';
+                    } 
+                else {
+                        echo("<br><br>Error: <br>" . $sql . "<br>" . $connection->error);
+                    }
                 } 
                 else {
-                    echo("<br><br>Error: <br>" . $sql . "<br>" . $connection->error);
+                    die('<br>ERROR: Bad payment type');
                 }
-            }                   
-            else{
-                die('<br>ERROR: Bad payment type');
             }
+            else{
+                echo 'Incomplete data';
+            }              
         }
     }
 }

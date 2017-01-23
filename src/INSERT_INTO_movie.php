@@ -17,24 +17,31 @@ function INSERT_INTO_movie($connection) {
             isset($_POST['description'])  ){
 
             $rating = $_POST['rating'];
+            $name = $_POST['name'];
+            $description = $_POST['description'];
             
-            if (is_numeric($rating) && $rating >= 0.00 && $rating <= 10.00) {
-                $name = $_POST['name'];
-                $description = $_POST['description'];
+            
+            if (!empty($name) && !empty($rating) && !empty($description)) {
+                if (is_numeric($rating) && $rating >= 0.00 && $rating <= 10.00) {
 
-                $sql = "INSERT INTO `movie` (`name`, `description`, `rating`) VALUES ('$name', '$description', '$rating')";
-                
-                if ($connection->query($sql) === TRUE) {
-                    echo '<br><br>New movie added<br><br>';
-                } 
+
+
+                    $sql = "INSERT INTO `movie` (`name`, `description`, `rating`) VALUES ('$name', '$description', '$rating')";
+
+
+                    if ($connection->query($sql) === TRUE) {
+                        echo '<br><br>New movie added<br><br>';
+                    } 
                 else {
-                    echo("<br><br>Error: <br>" . $sql . "<br>" . $connection->error);
+                        echo("<br><br>Error: <br>" . $sql . "<br>" . $connection->error);
+                    }
+                }             else {
+                    die('<br>ERROR: Bad rating');
                 }
-                
             }
             else{
-                die('<br>ERROR: Bad rating');
-            }
+                echo 'Incomplete data';
+            }            
         }
     }
 }
