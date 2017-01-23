@@ -116,32 +116,45 @@
     <div class="container">
         <form class="cinema_form" method="post" action="#">
 
-            <div class="radio">
-                <label><input type="radio" name="radio" value="all" checked>All</label>
+            <div class="row" class="radio">
+                <div class="col-sm-2">
+                    <label><input type="radio" name="radio" value="all" checked>  All</label>
+                </div>   
             </div>
-            <div class="radio">
-                <label><input type="radio" name="radio" value="date" >Date</label>
-                <label for="date">Date:</label>
-                <input type="text" id="date" name="date" placeholder="rrrr-mm-dd">
+            <div class="row" class="radio" >
+                <div class="col-sm-2">
+                    <label><input type="radio" name="radio" value="date" >  Date</label>
+                </div>
+                <div class="col-sm-2">    
+                    <input type="text" id="date" name="date" placeholder="rrrr-mm-dd">
+                </div>
             </div>
-            <div class="radio">
-                <label><input type="radio" name="radio" value="before" >Before date</label>
-                <label for="before">Date:</label>
-                <input type="text" id="before" name="before" placeholder="rrrr-mm-dd">
+            <div class="row" class="radio">
+                <div class="col-sm-2">
+                    <label><input type="radio" name="radio" value="before" >   Before date</label>
+                </div>    
+                <div class="col-sm-2">
+                    <input type="text" id="before" name="before" placeholder="rrrr-mm-dd">
+                </div>
             </div>
-            <div class="radio">
-                <label><input type="radio" name="radio" value="after" >After date</label>
-                <label for="after">Date:</label>
-                <input type="text" id="after" name="after" placeholder="rrrr-mm-dd">
+            <div class="row" class="radio">
+                <div class="col-sm-2">
+                    <label><input type="radio" name="radio" value="after" >  After date</label>
+                </div>            
+                <div class="col-sm-2">     
+                    <input type="text" id="after" name="after" placeholder="rrrr-mm-dd">
+                </div>
             </div>
-            <div class="radio">
-                <label><input type="radio" name="radio" value="between" >Between dates</label>
-                
-                <label for="after">After:</label>
-                <input type="text" id="after" name="after_between" placeholder="rrrr-mm-dd">
-                
-                <label for="before">Before:</label>
-                <input type="text" id="before" name="before_between" placeholder="rrrr-mm-dd">                
+            <div class="row" class="radio">
+                <div class="col-sm-2">
+                    <label><input type="radio" name="radio" value="between" >  Between dates</label>
+                </div>
+                <div class="col-sm-2">    
+                    <input type="text" id="after" name="after_between" placeholder="rrrr-mm-dd">
+                </div>
+                <div class="col-sm-2">    
+                    <input type="text" id="before" name="before_between" placeholder="rrrr-mm-dd">    
+                </div>
             </div>
 
             

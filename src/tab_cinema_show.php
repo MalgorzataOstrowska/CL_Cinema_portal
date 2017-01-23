@@ -86,13 +86,19 @@
     <div class="container">
         <form class="cinema_form" method="post" action="#">
 
-            <div class="radio">
-                <label><input type="radio" name="radio" value="all" checked>All</label>
+            <div class="row" class="radio">
+                <div class="col-sm-2">
+                    <label><input type="radio" name="radio" value="all" checked>  All</label>
+            
+                </div>
             </div>
-            <div class="radio">
-                <label><input type="radio" name="radio" value="letter" >Starting with letter</label>
-                <label for="letters">Letter:</label>
-                <input type="text" id="letter" name="letter" >
+            <div  class="row" class="radio">
+                <div class="col-sm-2">
+                    <label><input type="radio" name="radio" value="letter" >  Starting with letter</label>
+                </div>    
+                <div class="col-sm-2">
+                    <input type="text" id="letter" name="letter" >
+                </div>    
             </div>
             
             
