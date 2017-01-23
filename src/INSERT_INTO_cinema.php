@@ -15,7 +15,7 @@ function INSERT_INTO_cinema($connection) {
             $address = $_POST['address'];
             
             
-            echo $sql = "INSERT INTO `cinema` (`name`, `address`) VALUES ('$name', '$address')";
+            $sql = "INSERT INTO `cinema` (`name`, `address`) VALUES ('$name', '$address')";
             
             if ($connection->query($sql) === TRUE) {
                 echo '<br><br>New cinema added<br><br>';

@@ -53,7 +53,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>MySQL homework</title>
+  <title>Cinema</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -64,10 +64,10 @@
     <nav class="navbar navbar-inverse">
      <div class="container-fluid">
        <div class="navbar-header">
-         <a class="navbar-brand" href="../homework.php">MySQL - DAY 1 - HOMEWORK </a>
+         <a class="navbar-brand" href="../Cinema.php">Cinema</a>
        </div>
        <ul class="nav navbar-nav">
-           <li class="active"><a href="../homework.php">Home</a></li>
+           <li class="active"><a href="../Cinema.php">Home</a></li>
          <li class="dropdown">
            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Add / delete
            <span class="caret"></span></a>
