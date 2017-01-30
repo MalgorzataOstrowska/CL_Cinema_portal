@@ -2,51 +2,8 @@
 
     include_once 'library.php';    
     // Creation of a new connection:
-    $connection = new mysqli(
-        'localhost', 
-        'root',
-        'coderslab',
-        'cinemas_db_branch_master'
-        );
+    $connection = new ConnectionToDatabase();
 
-    // Checking whether the connection succeeded
-    if ($connection->connect_error) {
-        die("Connection unsuccessful. Error: " . $connection->connect_error);
-    }
-    echo("Connection successful.");
-    
-    function dataFromPOST(mysqli $connection) {
-        if ($_SERVER['REQUEST_METHOD']==='POST') {
-            if (isset($_POST['radio'])){
-
-                $radio = $_POST['radio'];
-                
-                if ($radio == 'all') {
-                    $sql = "SELECT `id`, `name`, `description`, `rating` FROM `movie`";
-                }
-                else if ($radio == 'letter'){
-                    
-                    if (isset($_POST['letter'])){
-                        
-                        $letter = $_POST['letter'];
-                        
-                        $sql = "SELECT `id`, `name`, `description`, `rating` FROM `movie` WHERE `name` LIKE '".$letter."%'";
-                    }
-                }
-                else if ($radio == 'rating'){
-                    
-                    if (isset($_POST['rating']) && is_numeric($_POST['rating'])){
-                        
-                        $rating = $_POST['rating'];
-                        
-                        $sql = "SELECT `id`, `name`, `description`, `rating` FROM `movie` WHERE `rating` = ".$rating;
-                    }
-                }
-                
-                printMovie($connection, $sql); 
-            }
-        }
-    }
        
 ?>
 
@@ -97,9 +54,8 @@
     
     
     <?php 
-    
-        dataFromPOST($connection);
-        
+        $sql = $connection->dataFromPOST_movie();
+        $connection->printMovie($sql);     
     ?>
 </body>
 

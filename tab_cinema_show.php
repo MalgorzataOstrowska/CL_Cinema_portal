@@ -44,8 +44,6 @@
     
     
     <?php 
-//        $sql = "SELECT `id`, `name`, `address` FROM `cinema`";
-//        $connection->printCinema($sql); 
         $sql = $connection->dataFromPOST_cinema();
         $connection->printCinema($sql); 
     ?>

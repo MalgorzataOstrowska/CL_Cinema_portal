@@ -32,11 +32,7 @@
     
     
     <?php 
-    
-    
-        $connection->INSERT_INTO_cinema();
-        //DELETE_fromTable($connection);
-        
+        $connection->INSERT_INTO_cinema();    
         $connection->DELETE_fromTable();
         $sql = "SELECT `id`, `name`, `address` FROM `cinema`";
         $connection->printCinema($sql, true);
