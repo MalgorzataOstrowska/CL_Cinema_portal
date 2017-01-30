@@ -253,12 +253,15 @@ class ConnectionToDatabase {
                     }
                 }
                 else if ($radio == 'rating'){
-                    
+
                     if (isset($_POST['rating']) && is_numeric($_POST['rating'])){
-                        
+
                         $rating = $_POST['rating'];
                         
                         $sql = "SELECT `id`, `name`, `description`, `rating` FROM `movie` WHERE `rating` = ".$rating;
+                    }
+                    else{
+                        $sql = "SELECT * FROM `movie` WHERE 0";
                     }
                 }
             }
@@ -384,7 +387,7 @@ class ConnectionToDatabase {
                 }
                 
                 else if ($radio == 'after'){
-                    echo 'before';
+                    
                     if (isset($_POST['after'])){
                         
                         $after = $_POST['after'];
@@ -394,7 +397,7 @@ class ConnectionToDatabase {
                 }
                 
                 else if ($radio == 'between'){
-                    echo 'between';
+
                     if (isset($_POST['after_between']) && isset($_POST['before_between'])){
                         
                         $after = $_POST['after_between'];
