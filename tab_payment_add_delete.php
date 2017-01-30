@@ -2,18 +2,7 @@
 
     include_once 'library.php';    
     // Creation of a new connection:
-    $connection = new mysqli(
-        'localhost', 
-        'root',
-        'coderslab',
-        'cinemas_db_branch_master'
-        );
-
-    // Checking whether the connection succeeded
-    if ($connection->connect_error) {
-        die("Connection unsuccessful. Error: " . $connection->connect_error);
-    }
-    echo("Connection successful.");
+    $connection = new ConnectionToDatabase();
     
 ?>
 
@@ -48,10 +37,10 @@
     
     
     <?php 
-        INSERT_INTO_payment($connection);
-        DELETE_fromTable($connection);
+        $connection->INSERT_INTO_payment();
+        $connection->DELETE_fromTable();
         $sql = "SELECT `id`, `date`, `type` FROM `payment`";
-        printPayment($connection, $sql);     
+        $connection->printPayment($sql, true);  
     ?>
 </body>
 

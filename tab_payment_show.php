@@ -1,74 +1,9 @@
 <?php
 
-    include_once 'library.php';    
+    include_once 'library.php';
     // Creation of a new connection:
-    $connection = new mysqli(
-        'localhost', 
-        'root',
-        'coderslab',
-        'cinemas_db_branch_master'
-        );
-
-    // Checking whether the connection succeeded
-    if ($connection->connect_error) {
-        die("Connection unsuccessful. Error: " . $connection->connect_error);
-    }
-    echo("Connection successful.");
-    
-    function dataFromPOST(mysqli $connection) {
-        if ($_SERVER['REQUEST_METHOD']==='POST') {
-            if (isset($_POST['radio'])){
-
-                $radio = $_POST['radio'];
-                
-                if ($radio == 'all') {
-                    $sql = "SELECT `id`, `date`, `type` FROM `payment`";
-                }
-                else if ($radio == 'date'){
-                    
-                    if (isset($_POST['date'])){
-                        
-                        $date = $_POST['date'];
-                        $sql = "SELECT `id`, `date`, `type` FROM `payment` WHERE `date` LIKE '".$date."'";
-
-                    }
-                }
-                else if ($radio == 'before'){
-
-                    if (isset($_POST['before'])){
-                        
-                        $before = $_POST['before'];
-                        $sql = "SELECT `id`, `date`, `type` FROM `payment` WHERE `date` < '".$before."'";
-
-                    }
-                }
-                
-                else if ($radio == 'after'){
-                    echo 'before';
-                    if (isset($_POST['after'])){
-                        
-                        $after = $_POST['after'];
-                        $sql = "SELECT `id`, `date`, `type` FROM `payment` WHERE `date` > '".$after."'";
-
-                    }
-                }
-                
-                else if ($radio == 'between'){
-                    echo 'between';
-                    if (isset($_POST['after_between']) && isset($_POST['before_between'])){
-                        
-                        $after = $_POST['after_between'];
-                        $before = $_POST['before_between'];
-                        $sql = "SELECT `id`, `date`, `type` FROM `payment` WHERE `date` BETWEEN '".$after."' AND '" . $before . "'";
-                    }
-                }
-
-                
-            printPayment($connection, $sql); 
-            }
-        }
-    }
-       
+    $connection = new ConnectionToDatabase();
+      
 ?>
 
 <!DOCTYPE html>
@@ -138,9 +73,8 @@
     
     
     <?php 
-    
-        dataFromPOST($connection);
-        
+        $sql = $connection->dataFromPOST_payment();
+        $connection->printPayment($sql); 
     ?>
 </body>
 

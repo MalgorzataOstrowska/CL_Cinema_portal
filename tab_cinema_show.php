@@ -3,9 +3,7 @@
     include_once 'library.php';    
     // Creation of a new connection:
     $connection = new ConnectionToDatabase();
-    
-
-       
+     
 ?>
 
 <!DOCTYPE html>
