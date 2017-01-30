@@ -1,6 +1,6 @@
 <?php
 
-function DELETE_fromTable(mysqli $connection) {
+function DELETE_fromTable($connection) {
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         //echo 'GET';
         if (isset($_GET['id']) && isset($_GET['table']) ) {

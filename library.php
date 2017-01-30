@@ -11,3 +11,5 @@ include_once 'src/INSERT_INTO_cinema.php';
 include_once 'src/INSERT_INTO_movie.php';
 include_once 'src/INSERT_INTO_payment.php';
 include_once 'src/INSERT_INTO_ticket.php';
+
+include_once 'src/ConnectionToDatabase.php';

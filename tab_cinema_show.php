@@ -2,42 +2,9 @@
 
     include_once 'library.php';    
     // Creation of a new connection:
-    $connection = new mysqli(
-        'localhost', 
-        'root',
-        'coderslab',
-        'cinemas_db_branch_master'
-        );
-
-    // Checking whether the connection succeeded
-    if ($connection->connect_error) {
-        die("Connection unsuccessful. Error: " . $connection->connect_error);
-    }
-    echo("Connection successful.");
+    $connection = new ConnectionToDatabase();
     
-    function dataFromPOST(mysqli $connection) {
-        if ($_SERVER['REQUEST_METHOD']==='POST') {
-            if (isset($_POST['radio'])){
 
-                $radio = $_POST['radio'];
-                
-                if ($radio == 'all') {
-                    $sql = "SELECT `id`, `name`, `address` FROM `cinema`";
-                }
-                else if ($radio == 'letter'){
-                    
-                    if (isset($_POST['letter'])){
-                        
-                        $letter = $_POST['letter'];
-                        
-                        $sql = "SELECT `id`, `name`, `address` FROM `cinema` WHERE `name` LIKE '".$letter."%'";
-                    }
-                }
-                
-                printCinema($connection, $sql); 
-            }
-        }
-    }
        
 ?>
 
@@ -60,7 +27,6 @@
             <div class="row" class="radio">
                 <div class="col-sm-2">
                     <label><input type="radio" name="radio" value="all" checked>  All</label>
-            
                 </div>
             </div>
             <div  class="row" class="radio">
@@ -71,18 +37,17 @@
                     <input type="text" id="letter" name="letter" >
                 </div>    
             </div>
-            
-            
-           
+
             <button type="submit" name="submit" value="cinema">Show</button>
-       </form>
-   </div>
+        </form>
+    </div>
     
     
     <?php 
-    
-        dataFromPOST($connection);
-        
+//        $sql = "SELECT `id`, `name`, `address` FROM `cinema`";
+//        $connection->printCinema($sql); 
+        $sql = $connection->dataFromPOST_cinema();
+        $connection->printCinema($sql); 
     ?>
 </body>
 

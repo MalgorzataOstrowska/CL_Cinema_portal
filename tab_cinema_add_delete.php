@@ -2,18 +2,7 @@
 
     include_once 'library.php';    
     // Creation of a new connection:
-    $connection = new mysqli(
-        'localhost', 
-        'root',
-        'coderslab',
-        'cinemas_db_branch_master'
-        );
-
-    // Checking whether the connection succeeded
-    if ($connection->connect_error) {
-        die("Connection unsuccessful. Error: " . $connection->connect_error);
-    }
-    echo("Connection successful.");
+    $connection = new ConnectionToDatabase();
     
 ?>
 
@@ -31,22 +20,26 @@
     <?php include "src/navbar.html"; ?>
 
 
-   <div class="container">
-       <form class="cinema_form" method="post" action="#">
-           <label>Name</label><br>
-           <input name="name" type="text" maxlength="255" value=""/><br>
-           <label>Address</label><br>
-           <input name="address" type="text" maxlength="255" value=""/><br>
-           <button type="submit" name="submit" value="cinema">Add</button>
-       </form>
-   </div>
+    <div class="container">
+        <form class="cinema_form" method="post" action="#">
+            <label>Name</label><br>
+            <input name="name" type="text" maxlength="255" value=""/><br>
+            <label>Address</label><br>
+            <input name="address" type="text" maxlength="255" value=""/><br>
+            <button type="submit" name="submit" value="cinema">Add</button>
+        </form>
+    </div>
     
     
     <?php 
-        INSERT_INTO_cinema($connection);
-        DELETE_fromTable($connection);
+    
+    
+        $connection->INSERT_INTO_cinema();
+        //DELETE_fromTable($connection);
+        
+        $connection->DELETE_fromTable();
         $sql = "SELECT `id`, `name`, `address` FROM `cinema`";
-        printCinema($connection, $sql);     
+        $connection->printCinema($sql, true);
     ?>
 </body>
 

@@ -5,7 +5,7 @@
  * printCinema
  * @param mysqli $connection
  */
-function printCinema(mysqli $connection, $sql) {
+function printCinema($connection, $sql) {
 
     // Checking whether SELECT succeeded
     $result = $connection->query($sql);
