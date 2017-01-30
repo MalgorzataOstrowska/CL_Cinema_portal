@@ -406,4 +406,88 @@ class ConnectionToDatabase {
             echo '<br><br>Error<br>';
         }
     }
+/********************************************************************************************************************/
+    public function INSERT_INTO_ticket() {
+        if ($_SERVER['REQUEST_METHOD']==='POST') {
+            if (isset($_POST['quantity'])     && 
+                isset($_POST['price'])        ){
+
+                $price = $_POST['price'];
+                $quantity = $_POST['quantity'];
+
+                if (!empty($price) && !empty($quantity)) {
+                    if ($price > 0) {
+
+
+                        $sql = "INSERT INTO `ticket` (`quantity`, `price`) VALUES ('$quantity', '$price')";
+
+                        if ($this->mysqli->query($sql) === TRUE) {
+                            echo '<br><br>New ticket added<br><br>';
+                        } 
+                    else {
+                            echo("<br><br>Error: <br>" . $sql . "<br>" . $this->mysqli->error);
+                        }
+                    } 
+                    else {
+                        die('<br>ERROR: Bad price');
+                    }
+                }
+                else{
+                    echo 'Incomplete data';
+                } 
+            }
+        }
+    }    
+    public function dataFromPOST_ticket() {
+        if ($_SERVER['REQUEST_METHOD']==='POST') {
+            if (isset($_POST['radio'])){
+
+                $radio = $_POST['radio'];
+                
+                if ($radio == 'all') {
+                    $sql = "SELECT `id`, `quantity`, `price` FROM `ticket`";
+                }
+            }
+        }
+        else{
+            $sql = "SELECT `id`, `quantity`, `price` FROM `ticket`";
+        }
+        return $sql;        
+    } 
+    
+    
+    public function printTicket($sql, $delete = false) {
+        // Checking whether SELECT succeeded
+        $result = $this->mysqli->query($sql);
+
+        if ($result != FALSE) {
+            // Print data
+            echo '<div class="container">
+                <h3>Tickets:</h3>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>id</th>
+                        <th>quantity</th>
+                        <th>price</th>';
+                if ($delete) {
+                    echo    '<th>DELETE</th>';
+                }    
+                echo    '</tr>';
+
+                while ($row = $result->fetch_assoc()) {
+                    echo '<tr>
+                            <td>' . $row["id"] . '</td>
+                            <td>' . $row["quantity"] . '</td>
+                            <td>' . $row["price"] . '</td>';
+                    if ($delete) {                     
+                        echo '<td><a href="tab_ticket_add_delete.php?table=ticket&id='. $row["id"] . '">delete</a></td>';
+                    }
+                }
+                echo     '</tr>
+                </table></div>';            
+        } 
+        else {
+            echo '<br><br>Error<br>';
+        }
+    }    
 }

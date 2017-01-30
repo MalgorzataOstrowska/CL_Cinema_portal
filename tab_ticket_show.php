@@ -3,7 +3,7 @@
     include_once 'library.php';    
     // Creation of a new connection:
     $connection = new ConnectionToDatabase();
-    
+     
 ?>
 
 <!DOCTYPE html>
@@ -19,23 +19,23 @@
 <body>
     <?php include "src/navbar.html"; ?>
 
+    <div class="container">
+        <form class="ticket_form" method="post" action="#">
 
-<div class="container">
-    <form class="ticket_form" method="post" action="#">
-        <label>Quantity</label><br>
-        <input name="quantity" type="number" min="0"/><br>
-        <label>Price</label><br>
-        <input name="price" type="number" min="0" step="0.01"/><br>
-        <button type="submit" name="submit" value="ticket">Add</button>
-    </form>
-</div>
+            <div class="row" class="radio">
+                <div class="col-sm-2">
+                    <label><input type="radio" name="radio" value="all" checked>  All</label>
+                </div>
+            </div>
+
+            <button type="submit" name="submit" value="cinema">Show</button>
+        </form>
+    </div>
     
     
     <?php 
-        $connection->INSERT_INTO_ticket();
-        $connection->DELETE_fromTable();
-        $sql = "SELECT `id`, `quantity`, `price` FROM `ticket`";
-        $connection->printTicket($sql, true);     
+        $sql = $connection->dataFromPOST_ticket();
+        $connection->printTicket($sql); 
     ?>
 </body>
 
