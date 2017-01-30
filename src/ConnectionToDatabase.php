@@ -12,11 +12,12 @@
  * @author gosia
  */
 class ConnectionToDatabase {
-    //put your code here
-    
- 
+
     private $mysqli;
     
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         
@@ -38,8 +39,11 @@ class ConnectionToDatabase {
         
     }
 
-    
-    // ?????????????
+    /**
+     * query
+     * @param string $sql
+     * @return bool
+     */
     public function query($sql){
         $result = $this->mysqli->query($sql);
         if ($result == false) {
@@ -49,12 +53,17 @@ class ConnectionToDatabase {
         
     }    
     
-    // ??????
+    /**
+     * close
+     * @return bool
+     */
     public function close(){
          $this->mysqli->close();
     }
 
-    // static???
+    /**
+     * DELETE_fromTable
+     */
     public function DELETE_fromTable() {
 
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -79,7 +88,11 @@ class ConnectionToDatabase {
         }
     } 
 
+    
 /********************************************************************************************************************/    
+    /**
+     * INSERT_INTO_cinema
+     */
     public function INSERT_INTO_cinema() {
         if ($_SERVER['REQUEST_METHOD']==='POST') {
             if (isset($_POST['name'])     && 
@@ -105,6 +118,10 @@ class ConnectionToDatabase {
         }
     }    
     
+    /**
+     * dataFromPOST_cinema
+     * @return string
+     */
     public function dataFromPOST_cinema() {
         if ($_SERVER['REQUEST_METHOD']==='POST') {
             if (isset($_POST['radio'])){
@@ -131,6 +148,11 @@ class ConnectionToDatabase {
         return $sql;
     }
     
+    /**
+     * printCinema
+     * @param string $sql
+     * @param bool $delete
+     */
     public function printCinema($sql, $delete = false) {
 
         // Checking whether SELECT succeeded
@@ -166,9 +188,12 @@ class ConnectionToDatabase {
             echo '<br><br>Error<br>';
         }
     }
-/********************************************************************************************************************/
     
     
+/********************************************************************************************************************/  
+    /**
+     * INSERT_INTO_movie
+     */
     public function INSERT_INTO_movie() {
         if ($_SERVER['REQUEST_METHOD']==='POST') {
             if (isset($_POST['name'])     && 
@@ -205,6 +230,10 @@ class ConnectionToDatabase {
         }
     }
 
+    /**
+     * dataFromPOST_movie
+     * @return string
+     */
     public function dataFromPOST_movie() {
         if ($_SERVER['REQUEST_METHOD']==='POST') {
             if (isset($_POST['radio'])){
@@ -240,7 +269,11 @@ class ConnectionToDatabase {
         return $sql;        
     }    
     
-    
+    /**
+     * printMovie
+     * @param string $sql
+     * @param bool $delete
+     */
     public function printMovie($sql, $delete = false) {
         // Checking whether SELECT succeeded
         $result = $this->mysqli->query($sql);
@@ -280,8 +313,10 @@ class ConnectionToDatabase {
     }
     
     
-    
 /********************************************************************************************************************/
+    /**
+     * INSERT_INTO_payment
+     */
     public function INSERT_INTO_payment() {
         if ($_SERVER['REQUEST_METHOD']==='POST') {
             if (isset($_POST['payment_type'])     && 
@@ -316,6 +351,10 @@ class ConnectionToDatabase {
         }
     }  
     
+    /**
+     * dataFromPOST_payment
+     * @return string
+     */
     public function dataFromPOST_payment() {
         if ($_SERVER['REQUEST_METHOD']==='POST') {
             if (isset($_POST['radio'])){
@@ -371,7 +410,11 @@ class ConnectionToDatabase {
         return $sql;        
     }  
 
-    
+    /**
+     * 
+     * @param string $sql
+     * @param bool $delete
+     */
     public function printPayment($sql, $delete = false) {
         // Checking whether SELECT succeeded
         $result = $this->mysqli->query($sql);
@@ -406,7 +449,12 @@ class ConnectionToDatabase {
             echo '<br><br>Error<br>';
         }
     }
+    
+    
 /********************************************************************************************************************/
+    /**
+     * INSERT_INTO_ticket
+     */
     public function INSERT_INTO_ticket() {
         if ($_SERVER['REQUEST_METHOD']==='POST') {
             if (isset($_POST['quantity'])     && 
@@ -437,7 +485,12 @@ class ConnectionToDatabase {
                 } 
             }
         }
-    }    
+    }
+
+    /**
+     * dataFromPOST_ticket
+     * @return string
+     */
     public function dataFromPOST_ticket() {
         if ($_SERVER['REQUEST_METHOD']==='POST') {
             if (isset($_POST['radio'])){
@@ -455,7 +508,11 @@ class ConnectionToDatabase {
         return $sql;        
     } 
     
-    
+    /**
+     * printTicket
+     * @param string $sql
+     * @param bool $delete
+     */
     public function printTicket($sql, $delete = false) {
         // Checking whether SELECT succeeded
         $result = $this->mysqli->query($sql);
