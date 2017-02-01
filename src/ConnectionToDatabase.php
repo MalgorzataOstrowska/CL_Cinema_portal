@@ -486,8 +486,8 @@ class ConnectionToDatabase {
                         if ($this->mysqli->query($sql) === TRUE) {
                             echo '<br><br>New ticket added<br><br>';
                             $ticket_id = $this->mysqli->insert_id;
-                            $this->INSERT_INTO_payment($ticket_id);
                             $this->printBoughtTicket($ticket_id);
+                            $this->INSERT_INTO_payment($ticket_id);                            
                         } 
                     else {
                             echo("<br><br>Error: <br>" . $sql . "<br>" . $this->mysqli->error);
