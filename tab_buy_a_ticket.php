@@ -17,14 +17,31 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
     <body>
+        <?php include "src/navbar.html"; ?>
+
+        <div class="container">
+            <form class="cinema_form" method="post" action="#">
+
+                <?php
+                    $connection->selectSeance();
+                ?>
+
+                <br><br>
+                    <h3>Ticket:</h3>
+                    <label>Quantity</label><br>
+                    <input name="quantity" type="number" min="0"/><br>
+                    <label>Price</label><br>
+                    <input name="price" type="number" min="0" step="0.01"/>
+                    <br><br>
+                    
+                    <button type="submit" name="submit" value="buy">Buy</button>
+                </div>
+            </form>
+        </div>
+
         <?php 
-        
-        include "src/navbar.html"; 
-        $connection->selectSeance();
-        
+        $connection->INSERT_INTO_ticket(); 
         ?>
-
-
     </body>
 </html>
 

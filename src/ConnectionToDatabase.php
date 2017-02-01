@@ -462,18 +462,18 @@ class ConnectionToDatabase {
      */
     public function INSERT_INTO_ticket() {
         if ($_SERVER['REQUEST_METHOD']==='POST') {
-            if (isset($_POST['quantity'])     && 
+            if (isset($_POST['seance'])       &&
+                isset($_POST['quantity'])     && 
                 isset($_POST['price'])        ){
 
+                $seance = $_POST['seance'];
                 $price = $_POST['price'];
                 $quantity = $_POST['quantity'];
 
-                if (!empty($price) && !empty($quantity)) {
+                if (!empty($seance) && !empty($price) && !empty($quantity)) {
                     if ($price > 0) {
 
-
-                        $sql = "INSERT INTO `ticket` (`quantity`, `price`) VALUES ('$quantity', '$price')";
-
+                        $sql = "INSERT INTO `ticket` (`id`, `quantity`, `price`, `seance_id`) VALUES (NULL, '$quantity', '$price', '$seance')";
                         if ($this->mysqli->query($sql) === TRUE) {
                             echo '<br><br>New ticket added<br><br>';
                         } 
@@ -568,7 +568,6 @@ class ConnectionToDatabase {
                 FROM `seance` 
                 LEFT JOIN movie ON seance.movie_id=movie.id 
                 LEFT JOIN cinema ON seance.cinema_id=cinema.id';
-
         
         // Checking whether SELECT succeeded
         $result = $this->mysqli->query($sql);
