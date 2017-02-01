@@ -6,4 +6,5 @@
 $serverName = 'localhost';
 $userName = 'root';
 $password = 'coderslab';
-$databaseName = 'cinemas_db_branch_master';
+$databaseName = 'cl_cinema_portal';
+//$databaseName = 'cinemas_db_branch_master';
