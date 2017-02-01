@@ -510,17 +510,40 @@ class ConnectionToDatabase {
      */
     public function dataFromPOST_ticket() {
         if ($_SERVER['REQUEST_METHOD']==='POST') {
+
             if (isset($_POST['radio'])){
 
                 $radio = $_POST['radio'];
                 
                 if ($radio == 'all') {
-                    $sql = "SELECT `id`, `quantity`, `price` FROM `ticket`";
+                    $sql = "SELECT ticket.`id`, ticket.`quantity`, ticket.`price`, payment.`type` FROM `ticket` LEFT JOIN `payment` ON ticket.id=payment.ticket_id";
+                }
+                
+                else if ($radio == 'none') {
+                    $sql  = 'SELECT ticket.`id`, ticket.`quantity`, ticket.`price`, payment.`type` FROM `ticket` LEFT JOIN `payment` ON ticket.id=payment.ticket_id '
+                            . 'WHERE payment.`type` IS NULL';
+
+                }
+                
+                else if ($radio == 'transfer') {
+                    $sql = "SELECT ticket.`id`, ticket.`quantity`, ticket.`price`, payment.`type` FROM `ticket` LEFT JOIN `payment` ON ticket.id=payment.ticket_id "
+                            . "WHERE payment.`type` LIKE 'transfer'";
+                }
+                
+                else if ($radio == 'cash') {
+                    $sql = "SELECT ticket.`id`, ticket.`quantity`, ticket.`price`, payment.`type` FROM `ticket` LEFT JOIN `payment` ON ticket.id=payment.ticket_id "
+                            . "WHERE payment.`type` LIKE 'cash'";
+                }
+                
+                else if ($radio == 'card') {
+                    $sql = "SELECT ticket.`id`, ticket.`quantity`, ticket.`price`, payment.`type` FROM `ticket` LEFT JOIN `payment` ON ticket.id=payment.ticket_id "
+                            . "WHERE payment.`type` LIKE 'card'";
                 }
             }
+            
         }
         else{
-            $sql = "SELECT `id`, `quantity`, `price` FROM `ticket`";
+            $sql = "SELECT ticket.`id`, ticket.`quantity`, ticket.`price`, payment.`type` FROM `ticket` LEFT JOIN `payment` ON ticket.id=payment.ticket_id";
         }
         return $sql;        
     } 
@@ -542,7 +565,8 @@ class ConnectionToDatabase {
                     <tr>
                         <th>id</th>
                         <th>quantity</th>
-                        <th>price</th>';
+                        <th>price</th>
+                        <th>payment type</th>';
                 if ($delete) {
                     echo    '<th>DELETE</th>';
                 }    
@@ -552,7 +576,8 @@ class ConnectionToDatabase {
                     echo '<tr>
                             <td>' . $row["id"] . '</td>
                             <td>' . $row["quantity"] . '</td>
-                            <td>' . $row["price"] . '</td>';
+                            <td>' . $row["price"] . '</td>
+                            <td>' . $row["type"] . '</td>';
                     if ($delete) {                     
                         echo '<td><a href="tab_ticket_add_delete.php?table=ticket&id='. $row["id"] . '">delete</a></td>';
                     }
@@ -563,7 +588,7 @@ class ConnectionToDatabase {
         else {
             echo '<br><br>Error<br>';
         }
-    }
+    } 
     
     public function printBoughtTicket($ticket_id) {
         // Checking whether SELECT succeeded

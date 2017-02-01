@@ -22,14 +22,34 @@
 
         <div class="container">
             <form class="ticket_form" method="post" action="#">
-
+                <h3>Payment type:</h3>
                 <div class="row" class="radio">
                     <div class="col-sm-2">
                         <label><input type="radio" name="radio" value="all" checked>  All</label>
                     </div>
+                </div>    
+                <div class="row" class="radio"> 
+                    <div class="col-sm-2">
+                        <label><input type="radio" name="radio" value="none">  None</label>
+                    </div>
+                </div>    
+                <div class="row" class="radio">    
+                    <div class="col-sm-2">
+                        <label><input type="radio" name="radio" value="transfer">  Transfer</label>
+                    </div>
+                </div>    
+                <div class="row" class="radio">
+                    <div class="col-sm-2">
+                        <label><input type="radio" name="radio" value="cash">  Cash</label>
+                    </div>
+                </div>    
+                <div class="row" class="radio">
+                    <div class="col-sm-2">
+                        <label><input type="radio" name="radio" value="card">  Card</label>
+                    </div>
                 </div>
-
                 <button type="submit" name="submit" value="cinema">Show</button>
+
             </form>
         </div>
 
