@@ -551,5 +551,45 @@ class ConnectionToDatabase {
         else {
             echo '<br><br>Error<br>';
         }
+    }
+    
+    
+/********************************************************************************************************************/
+    /**
+     * selectSeance
+     */
+    public function selectSeance(){
+        $sql  = 'SELECT 
+                seance.`id`,
+                seance.`date`,
+                seance.`time`,
+                movie.name AS movie,
+                cinema.name AS cinema
+                FROM `seance` 
+                LEFT JOIN movie ON seance.movie_id=movie.id 
+                LEFT JOIN cinema ON seance.cinema_id=cinema.id';
+
+        
+        // Checking whether SELECT succeeded
+        $result = $this->mysqli->query($sql);
+
+        if ($result != FALSE) {
+
+            // Print data
+            echo '<div class="container">
+                <h3>Seance:</h3>
+                <select name="seance">';
+
+            while($row = $result->fetch_assoc()) {
+
+                    echo '<option value="'.$row["id"].'">id = ' . $row["id"]. ', ' .$row["date"].', '.$row["time"].' - '.$row["movie"].' - '.$row["cinema"].'</option>';
+
+            }
+            echo '</select>';
+        }
+
+        else {
+            echo("<br><br>Error: <br>");
+        }        
     }    
 }
