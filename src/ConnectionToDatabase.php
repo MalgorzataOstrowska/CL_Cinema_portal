@@ -37,6 +37,8 @@ class ConnectionToDatabase {
         }
         echo("Connection successful.");
         
+        $this->mysqli->set_charset("utf8");
+        
     }
 
     /**
