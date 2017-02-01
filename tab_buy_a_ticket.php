@@ -34,6 +34,16 @@
                     <input name="price" type="number" min="0" step="0.01"/>
                     <br><br>
                     
+                    <label>Payment type</label><br>
+                    <select name="payment_type">
+                        <option value="none">None</option>
+                        <option value="transfer">Transfer</option>
+                        <option value="cash">Cash</option>
+                        <option value="card">Card</option>
+                    </select><br>
+                    <label>Date</label><br>
+                    <input type="date" name="payment_date"><br>
+                    <br>
                     <button type="submit" name="submit" value="buy">Buy</button>
                 </div>
             </form>

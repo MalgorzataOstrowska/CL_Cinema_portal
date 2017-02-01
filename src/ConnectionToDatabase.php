@@ -322,7 +322,7 @@ class ConnectionToDatabase {
     /**
      * INSERT_INTO_payment
      */
-    public function INSERT_INTO_payment() {
+    public function INSERT_INTO_payment($ticket_id) {
         if ($_SERVER['REQUEST_METHOD']==='POST') {
             if (isset($_POST['payment_type'])     && 
                 isset($_POST['payment_date'])        ){
@@ -331,20 +331,29 @@ class ConnectionToDatabase {
                 $payment_date = $_POST['payment_date'];
 
 
-                if (!empty($payment_type) && !empty($payment_date)) {
+                if (!empty($payment_type)) {
                     if ($payment_type == 'transfer' ||
                             $payment_type == 'cash' ||
                             $payment_type == 'card') {
 
-                        $sql = "INSERT INTO `payment` (`date`, `type`) VALUES ('$payment_date', '$payment_type')";
+                        if (empty($payment_date)) {
+
+                            echo 'Payment date: present date was used - ';
+                            echo $payment_date = date("d.m.Y");
+                        }
+                        $sql = "INSERT INTO `payment` (`id`, `date`, `type`, `ticket_id`) VALUES (NULL,'$payment_date', '$payment_type', '$ticket_id')";
 
                         if ($this->mysqli->query($sql) === TRUE) {
                             echo '<br><br>New payment added<br><br>';
                         } 
-                    else {
+                        else {
                             echo("<br><br>Error: <br>" . $sql . "<br>" . $this->mysqli->error);
-                        }
-                    } 
+                        }                        
+                        
+                    }
+                    else if($payment_type == 'none'){
+                        die('<br>Payment type: none');
+                    }
                     else {
                         die('<br>ERROR: Bad payment type');
                     }
@@ -354,7 +363,7 @@ class ConnectionToDatabase {
                 }              
             }
         }
-    }  
+    }   
     
     /**
      * dataFromPOST_payment
@@ -476,6 +485,8 @@ class ConnectionToDatabase {
                         $sql = "INSERT INTO `ticket` (`id`, `quantity`, `price`, `seance_id`) VALUES (NULL, '$quantity', '$price', '$seance')";
                         if ($this->mysqli->query($sql) === TRUE) {
                             echo '<br><br>New ticket added<br><br>';
+                            $ticket_id = $this->mysqli->insert_id;
+                            $this->INSERT_INTO_payment($ticket_id);
                         } 
                     else {
                             echo("<br><br>Error: <br>" . $sql . "<br>" . $this->mysqli->error);
