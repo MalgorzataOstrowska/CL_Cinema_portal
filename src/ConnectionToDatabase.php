@@ -487,6 +487,7 @@ class ConnectionToDatabase {
                             echo '<br><br>New ticket added<br><br>';
                             $ticket_id = $this->mysqli->insert_id;
                             $this->INSERT_INTO_payment($ticket_id);
+                            $this->printBoughtTicket($ticket_id);
                         } 
                     else {
                             echo("<br><br>Error: <br>" . $sql . "<br>" . $this->mysqli->error);
@@ -564,6 +565,52 @@ class ConnectionToDatabase {
         }
     }
     
+    public function printBoughtTicket($ticket_id) {
+        // Checking whether SELECT succeeded
+        //echo $sql = "SELECT * FROM `ticket` WHERE `id`='$ticket_id'";
+        $sql = "SELECT
+                ticket.seance_id,
+                movie.name AS movie,
+                cinema.name AS cinema,
+                ticket.price
+                FROM `ticket`
+                LEFT JOIN seance
+                ON ticket.seance_id = seance.id
+                LEFT JOIN movie
+                ON seance.movie_id = movie.id
+                LEFT JOIN cinema
+                ON seance.cinema_id = cinema.id
+                WHERE ticket.id='$ticket_id'";
+        
+        $result = $this->mysqli->query($sql);
+
+        if ($result != FALSE) {
+            // Print data
+            echo '<div class="container">
+                <h3>Informations about bought ticket:</h3>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>seance id</th>
+                        <th>movie</th>
+                        <th>cinema</th>
+                        <th>price</th>    
+                        </tr>';
+
+                while ($row = $result->fetch_assoc()) {
+                    echo '<tr>
+                            <td>' . $row["seance_id"] . '</td>
+                            <td>' . $row["movie"] . '</td>
+                            <td>' . $row["cinema"] . '</td>
+                            <td>' . $row["price"] . '</td>';
+                }
+                echo     '</tr>
+                </table></div>';            
+        } 
+        else {
+            echo '<br><br>Error<br>';
+        }
+    } 
+
     
 /********************************************************************************************************************/
     /**
