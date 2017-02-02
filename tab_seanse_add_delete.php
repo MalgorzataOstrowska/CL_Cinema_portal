@@ -24,6 +24,8 @@
 
                 <?php
                     $connection->selectCinema();
+                    $connection->selectMovie();
+
                 ?>
 
                 <br><br>

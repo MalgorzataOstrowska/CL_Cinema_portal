@@ -704,7 +704,34 @@ class ConnectionToDatabase {
         }        
     }
 
+    /**
+     * selectMovie
+     */
+    public function selectMovie(){
+        $sql  = 'SELECT `id`, `name`, `description`, `rating` FROM `movie`';
+        
+        // Checking whether SELECT succeeded
+        $result = $this->mysqli->query($sql);
 
+        if ($result != FALSE) {
+
+            // Print data
+            echo '<div class="container">
+                <h3>Movie:</h3>
+                <select name="movie_id">';
+
+            while($row = $result->fetch_assoc()) {
+
+                    echo '<option value="'.$row["id"].'">' . $row["id"]. ' - ' .$row["name"].'</option>';
+
+            }
+            echo '</select></div>';
+        }
+
+        else {
+            echo("<br><br>Error: <br>");
+        }        
+    } 
 
     
 }
