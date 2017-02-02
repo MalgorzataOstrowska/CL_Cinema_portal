@@ -849,5 +849,35 @@ class ConnectionToDatabase {
                     
             }
         }
+    } 
+    
+    /**
+     * SELECT_FROM_seance_in_movie
+     */
+    public function SELECT_FROM_seance_in_movie() {
+        if ($_SERVER['REQUEST_METHOD']==='POST') {
+            if ($_POST['submit'] == 'showInMovie'       &&
+                isset($_POST['movie_id'])        ){
+
+                $movie_id = $_POST['movie_id'];
+                
+                $sql = "SELECT 
+                    seance.`id`,
+                    seance.date,
+                    seance.time,
+                    movie.name as movie,
+                    cinema.name AS cinema
+                    FROM `seance` 
+                    LEFT JOIN movie
+                    ON seance.movie_id = movie.id
+                    LEFT JOIN cinema
+                    ON seance.cinema_id = cinema.id
+                    WHERE movie.id = $movie_id";
+
+                $this->printSeance($sql);
+                    
+            }
+        }
     }    
+    
 }

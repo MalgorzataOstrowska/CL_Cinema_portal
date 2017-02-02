@@ -22,20 +22,37 @@
         <div class="container">
             <form class="cinema_form" method="post" action="#">
                 <h3>Show seances:</h3>
-                <?php
-                    $connection->selectCinema();
-                ?>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <?php
+                            $connection->selectCinema();
+                        ?>
 
-                <div class="container">
-                    <br>
-                    <button type="submit" name="submit" value="showInCinema">Show</button>
+                        <div class="container">
+                            <br>
+                            <button type="submit" name="submit" value="showInCinema">Show</button>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">               
+                        <?php
+                            $connection->selectMovie();
+                        ?>
+                        <div class="container">
+                            <br>
+                            <button type="submit" name="submit" value="showInMovie">Show</button>
+                        </div>
+
+               
+                    </div>
                 </div>
                 
-                <?php 
-                    $connection->SELECT_FROM_seance_in_cinema();
-                ?>                
-                
             </form>
+            
+            <?php 
+                $connection->SELECT_FROM_seance_in_cinema();
+                $connection->SELECT_FROM_seance_in_movie();
+            ?> 
         </div>
         
      
