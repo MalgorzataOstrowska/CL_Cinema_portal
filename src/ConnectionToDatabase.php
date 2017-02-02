@@ -673,5 +673,38 @@ class ConnectionToDatabase {
         else {
             echo("<br><br>Error: <br>");
         }        
-    }    
+    } 
+
+    /**
+     * selectCinema
+     */
+    public function selectCinema(){
+        $sql  = 'SELECT `id`, `name`, `address` FROM `cinema`';
+        
+        // Checking whether SELECT succeeded
+        $result = $this->mysqli->query($sql);
+
+        if ($result != FALSE) {
+
+            // Print data
+            echo '<div class="container">
+                <h3>Cinema:</h3>
+                <select name="cinema_id">';
+
+            while($row = $result->fetch_assoc()) {
+
+                    echo '<option value="'.$row["id"].'">' . $row["id"]. ' - ' .$row["name"].'</option>';
+
+            }
+            echo '</select></div>';
+        }
+
+        else {
+            echo("<br><br>Error: <br>");
+        }        
+    }
+
+
+
+    
 }
