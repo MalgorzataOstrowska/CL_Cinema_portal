@@ -821,5 +821,33 @@ class ConnectionToDatabase {
             echo '<br><br>Error<br>';
         }
     }      
-    
+
+    /**
+     * SELECT_FROM_seance_in_cinema
+     */
+    public function SELECT_FROM_seance_in_cinema() {
+        if ($_SERVER['REQUEST_METHOD']==='POST') {
+            if ($_POST['submit'] == 'showInCinema'       &&
+                isset($_POST['cinema_id'])        ){
+
+                $cinema_id = $_POST['cinema_id'];
+                
+                $sql = "SELECT 
+                    seance.`id`,
+                    seance.date,
+                    seance.time,
+                    movie.name as movie,
+                    cinema.name AS cinema
+                    FROM `seance` 
+                    LEFT JOIN movie
+                    ON seance.movie_id = movie.id
+                    LEFT JOIN cinema
+                    ON seance.cinema_id = cinema.id
+                    WHERE cinema.id = $cinema_id";
+
+                $this->printSeance($sql);
+                    
+            }
+        }
+    }    
 }
