@@ -30,9 +30,9 @@
                 <br><br>
                 <div class="container">
                     <label>Date</label><br>
-                    <input type="date" name="seance_date"><br>
+                    <input type="text" name="seance_date" placeholder="rrrr-mm-dd"><br>
                     <label>Time</label><br>
-                    <input type="time" name="seance_time"><br>
+                    <input type="text" name="seance_time" placeholder="hh:mm"><br>
 
                     <br>
                     <button type="submit" name="submit" value="add">Add</button>
@@ -43,7 +43,20 @@
         <?php 
             $connection->INSERT_INTO_seance();
             $connection->DELETE_fromTable();
-            $connection->printSeance(true);
+            
+            $sql = "SELECT 
+                seance.`id`,
+                seance.date,
+                seance.time,
+                movie.name as movie,
+                cinema.name AS cinema
+                FROM `seance` 
+                LEFT JOIN movie
+                ON seance.movie_id = movie.id
+                LEFT JOIN cinema
+                ON seance.cinema_id = cinema.id";
+            
+            $connection->printSeance($sql, true);
         ?>
         
     </body>

@@ -752,7 +752,7 @@ class ConnectionToDatabase {
                     if (empty($seance_date)) {
 
                         echo 'Seance date: present date was used - ';
-                        echo $seance_date = date("d.m.Y");
+                        echo $seance_date = date("Y.m.d");
                     }
                     
                     if (empty($seance_time)) {
@@ -763,7 +763,7 @@ class ConnectionToDatabase {
 
                     $sql = "INSERT INTO `seance` 
                             (`id`, `date`, `time`, `movie_id`, `cinema_id`) 
-                            VALUES (NULL, '$seance_date', '$seance_time', $cinema_id, $movie_id);";
+                            VALUES (NULL, '$seance_date', '$seance_time', $movie_id, $cinema_id);";
                     if ($this->mysqli->query($sql) === TRUE) {
                         echo '<br><br>New seance added<br><br>';
                     } 
@@ -782,19 +782,8 @@ class ConnectionToDatabase {
      * printSeance
      * @param bool $delete
      */
-    public function printSeance($delete = false) {
-        $sql = "SELECT 
-                seance.`id`,
-                seance.date,
-                seance.time,
-                movie.name as movie,
-                cinema.name AS cinema
-                FROM `seance` 
-                LEFT JOIN movie
-                ON seance.movie_id = movie.id
-                LEFT JOIN cinema
-                ON seance.cinema_id = cinema.id";
-        
+    public function printSeance($sql, $delete = false) {
+
         // Checking whether SELECT succeeded
         $result = $this->mysqli->query($sql);
 
@@ -818,7 +807,7 @@ class ConnectionToDatabase {
                     echo '<tr>
                             <td>' . $row["id"] . '</td>
                             <td>' . $row["date"] . '</td>
-                            <td>' . $row["time"] . '</td>
+                            <td>' . date('H:i', strtotime($row["time"])) . '</td>
                             <td>' . $row["movie"] . '</td>
                             <td>' . $row["cinema"] . '</td>';
                     if ($delete) {                     
