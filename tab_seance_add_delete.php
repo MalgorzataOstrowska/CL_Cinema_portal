@@ -42,6 +42,7 @@
         
         <?php 
             $connection->INSERT_INTO_seance();
+            $connection->DELETE_fromTable();
             $connection->printSeance(true);
         ?>
         

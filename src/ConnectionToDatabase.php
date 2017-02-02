@@ -67,14 +67,14 @@ class ConnectionToDatabase {
      * DELETE_fromTable
      */
     public function DELETE_fromTable() {
-
+        
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            //echo 'GET';
+
             if (isset($_GET['id']) && isset($_GET['table']) ) {
                 $id = $_GET['id'];
                 $table = $_GET['table'];
 
-                $sql = 'DELETE FROM ' . $table . ' WHERE `id` =' . $id;
+                echo $sql = 'DELETE FROM ' . $table . ' WHERE `id` =' . $id;
 
                 // Checking whether DELETE succeeded
                 $result = $this->mysqli->query($sql);
@@ -751,13 +751,13 @@ class ConnectionToDatabase {
                 if (!empty($cinema_id) && !empty($movie_id)) {
                     if (empty($seance_date)) {
 
-                        echo 'Seanse date: present date was used - ';
+                        echo 'Seance date: present date was used - ';
                         echo $seance_date = date("d.m.Y");
                     }
                     
                     if (empty($seance_time)) {
 
-                        echo '<br>Seanse time: 18:00 was used';
+                        echo '<br>Seance time: 18:00 was used';
                         $seance_time = '18:00:00';
                     }
 
@@ -765,7 +765,7 @@ class ConnectionToDatabase {
                             (`id`, `date`, `time`, `movie_id`, `cinema_id`) 
                             VALUES (NULL, '$seance_date', '$seance_time', $cinema_id, $movie_id);";
                     if ($this->mysqli->query($sql) === TRUE) {
-                        echo '<br><br>New seanse added<br><br>';
+                        echo '<br><br>New seance added<br><br>';
                     } 
                     else {
                         echo("<br><br>Error: <br>" . $sql . "<br>" . $this->mysqli->error);
@@ -822,7 +822,7 @@ class ConnectionToDatabase {
                             <td>' . $row["movie"] . '</td>
                             <td>' . $row["cinema"] . '</td>';
                     if ($delete) {                     
-                        echo '<td><a href="tab_ticket_add_delete.php?table=ticket&id='. $row["id"] . '">delete</a></td>';
+                        echo '<td><a href="tab_seance_add_delete.php?table=seance&id='. $row["id"] . '">delete</a></td>';
                     }
                 }
                 echo     '</tr>
