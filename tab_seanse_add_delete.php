@@ -25,7 +25,6 @@
                 <?php
                     $connection->selectCinema();
                     $connection->selectMovie();
-
                 ?>
 
                 <br><br>
@@ -40,7 +39,11 @@
                 </div>
             </form>
         </div>
-
+        
+        <?php 
+            $connection->INSERT_INTO_seance();
+        ?>
+        
     </body>
 </html>
 <?php 

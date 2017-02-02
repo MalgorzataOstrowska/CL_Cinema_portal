@@ -733,5 +733,48 @@ class ConnectionToDatabase {
         }        
     } 
 
-    
+    /**
+     * INSERT_INTO_seance
+     */
+    public function INSERT_INTO_seance() {
+        if ($_SERVER['REQUEST_METHOD']==='POST') {
+            if (isset($_POST['seance_date'])    &&
+                isset($_POST['seance_time'])    && 
+                isset($_POST['cinema_id'])         &&
+                isset($_POST['movie_id'])        ){
+
+                $seance_date = $_POST['seance_date'];
+                $seance_time = $_POST['seance_time'];
+                $cinema_id = $_POST['cinema_id'];
+                $movie_id = $_POST['movie_id'];
+
+                if (!empty($cinema_id) && !empty($movie_id)) {
+                    if (empty($seance_date)) {
+
+                        echo 'Seanse date: present date was used - ';
+                        echo $seance_date = date("d.m.Y");
+                    }
+                    
+                    if (empty($seance_time)) {
+
+                        echo '<br>Seanse time: 18:00 was used';
+                        $seance_time = '18:00:00';
+                    }
+
+                    $sql = "INSERT INTO `seance` 
+                            (`id`, `date`, `time`, `movie_id`, `cinema_id`) 
+                            VALUES (NULL, '$seance_date', '$seance_time', $cinema_id, $movie_id);";
+                    if ($this->mysqli->query($sql) === TRUE) {
+                        echo '<br><br>New seanse added<br><br>';
+                    } 
+                    else {
+                        echo("<br><br>Error: <br>" . $sql . "<br>" . $this->mysqli->error);
+                    }
+                }
+                else{
+                    echo 'Incomplete data';
+                } 
+            }
+        }
+    }     
 }
