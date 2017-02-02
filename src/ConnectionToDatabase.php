@@ -776,5 +776,61 @@ class ConnectionToDatabase {
                 } 
             }
         }
-    }     
+    }   
+    
+    /**
+     * printSeance
+     * @param bool $delete
+     */
+    public function printSeance($delete = false) {
+        $sql = "SELECT 
+                seance.`id`,
+                seance.date,
+                seance.time,
+                movie.name as movie,
+                cinema.name AS cinema
+                FROM `seance` 
+                LEFT JOIN movie
+                ON seance.movie_id = movie.id
+                LEFT JOIN cinema
+                ON seance.cinema_id = cinema.id";
+        
+        // Checking whether SELECT succeeded
+        $result = $this->mysqli->query($sql);
+
+        if ($result != FALSE) {
+            // Print data
+            echo '<div class="container">
+                <h3>Seances:</h3>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>id</th>
+                        <th>date</th>
+                        <th>time</th>
+                        <th>movie</th>
+                        <th>cinema</th>';
+                if ($delete) {
+                    echo    '<th>DELETE</th>';
+                }    
+                echo    '</tr>';
+
+                while ($row = $result->fetch_assoc()) {
+                    echo '<tr>
+                            <td>' . $row["id"] . '</td>
+                            <td>' . $row["date"] . '</td>
+                            <td>' . $row["time"] . '</td>
+                            <td>' . $row["movie"] . '</td>
+                            <td>' . $row["cinema"] . '</td>';
+                    if ($delete) {                     
+                        echo '<td><a href="tab_ticket_add_delete.php?table=ticket&id='. $row["id"] . '">delete</a></td>';
+                    }
+                }
+                echo     '</tr>
+                </table></div>';            
+        } 
+        else {
+            echo '<br><br>Error<br>';
+        }
+    }      
+    
 }
