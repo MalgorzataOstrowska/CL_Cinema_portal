@@ -54,7 +54,7 @@
 
         <?php 
             $sql = $connection->dataFromPOST_movie();
-            $connection->printMovie($sql);     
+            $connection->printMovie($sql, false, true);     
         ?>
     </body>
     <script

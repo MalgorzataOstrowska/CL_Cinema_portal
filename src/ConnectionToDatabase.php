@@ -285,7 +285,7 @@ class ConnectionToDatabase {
      * @param string $sql
      * @param bool $delete
      */
-    public function printMovie($sql, $delete = false) {
+    public function printMovie($sql, $delete = false, $seance = false) {
         // Checking whether SELECT succeeded
         $result = $this->mysqli->query($sql);
 
@@ -302,7 +302,10 @@ class ConnectionToDatabase {
                         <th>rating</th>';
             if ($delete) {
                 echo    '<th>DELETE</th>';
-            }    
+            }
+            if ($seance) {
+                echo    '<th>SEANCE</th>';
+            }             
             echo    '</tr>';
 
                 while ($row = $result->fetch_assoc()) {
@@ -313,7 +316,10 @@ class ConnectionToDatabase {
                             <td>' . $row["rating"] . '</td>';
                     if ($delete) {
                         echo '<td><a href="tab_movie_add_delete.php?table=movie&id='. $row["id"] . '">delete</a></td>';
-                    }                
+                    }  
+                    if ($seance) {
+                        echo '<td><a href="tab_seance_show.php?table=movie&id='. $row["id"] . '">seance</a></td>';
+                    }                    
                 }
                 echo     '</tr>
                 </table><div>';
@@ -850,7 +856,7 @@ class ConnectionToDatabase {
                     ON seance.cinema_id = cinema.id
                     WHERE cinema.id = $cinema_id";
 
-                    $this->callPrintSeanceInCinema($sql,$cinema_id);                
+                $this->callPrintSeanceInCinema($sql,$cinema_id);                
 
             }
         }
@@ -943,10 +949,72 @@ class ConnectionToDatabase {
                     ON seance.cinema_id = cinema.id
                     WHERE movie.id = $movie_id";
 
-                $this->printSeance($sql);
+                $this->callPrintSeanceInMovie($sql, $movie_id);
                     
             }
         }
-    }    
+    } 
+
     
+    public function SELECT_FROM_seance_in_movie_GET() {
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+            if (isset($_GET['id']) && isset($_GET['table']) ) {
+                
+                $table = $_GET['table'];
+                
+                if ($table == 'movie') {
+                    
+                    $movie_id = $_GET['id'];
+                    $sql = "SELECT 
+                    seance.`id`,
+                    seance.date,
+                    seance.time,
+                    movie.name as movie,
+                    cinema.name AS cinema
+                    FROM `seance` 
+                    LEFT JOIN movie
+                    ON seance.movie_id = movie.id
+                    LEFT JOIN cinema
+                    ON seance.cinema_id = cinema.id
+                    WHERE movie.id = $movie_id";
+                    
+                    $this->callPrintSeanceInMovie($sql,$movie_id);
+                }        
+            }
+        }
+    }
+
+    
+    /**
+     * callPrintSeanceInMovie
+     * @param string $sql
+     * @param int $movie_id
+     */
+    private function callPrintSeanceInMovie($sql, $movie_id){
+        // Checking whether SELECT succeeded
+        $result = $this->mysqli->query($sql);
+
+        if ($result != FALSE) {
+            $row = $result->fetch_assoc();
+            $movie = $row["movie"];
+            if ($movie) {
+                echo '<br><h3>Seances for movie ' . $movie . ':</h3>';
+                $this->printSeance($sql);
+            }
+            else{
+                $sql = 'SELECT * FROM `movie` WHERE `id` ='. $movie_id;
+                // Checking whether SELECT succeeded
+                $result = $this->mysqli->query($sql);
+                $row = $result->fetch_assoc();
+                $movie = $row["name"];
+
+                echo '<br><h3>No seances for movie ' . $movie . '</h3>';
+            }
+        } 
+        else {
+            echo '<br><br>Error<br>';
+        }          
+    }    
 }
