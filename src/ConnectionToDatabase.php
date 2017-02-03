@@ -155,7 +155,7 @@ class ConnectionToDatabase {
      * @param string $sql
      * @param bool $delete
      */
-    public function printCinema($sql, $delete = false) {
+    public function printCinema($sql, $delete = false, $seance = false) {
 
         // Checking whether SELECT succeeded
         $result = $this->mysqli->query($sql);
@@ -172,6 +172,9 @@ class ConnectionToDatabase {
             if ($delete) {
                 echo    '<th>DELETE</th>';
             }    
+            if ($seance) {
+                echo    '<th>SEANCE</th>';
+            }    
             echo    '</tr>';
 
             while ($row = $result->fetch_assoc()) {
@@ -181,6 +184,9 @@ class ConnectionToDatabase {
                         <td>' . $row["address"] . '</td>';
                 if ($delete) {
                     echo '<td><a href="tab_cinema_add_delete.php?table=cinema&id='. $row["id"] . '">delete</a></td>';
+                }
+                if ($seance) {
+                    echo '<td><a href="tab_seance_show.php?table=cinema&id='. $row["id"] . '">seance</a></td>';
                 }
             }
             echo     '</tr>
@@ -790,7 +796,6 @@ class ConnectionToDatabase {
         if ($result != FALSE) {
             // Print data
             echo '<div class="container">
-                <h3>Seances:</h3>
                 <table class="table table-bordered">
                     <tr>
                         <th>id</th>
@@ -845,15 +850,79 @@ class ConnectionToDatabase {
                     ON seance.cinema_id = cinema.id
                     WHERE cinema.id = $cinema_id";
 
-                $this->printSeance($sql);
-                    
+                    $this->callPrintSeanceInCinema($sql,$cinema_id);                
+
             }
         }
-    } 
+    }
     
     /**
-     * SELECT_FROM_seance_in_movie
+     * SELECT_FROM_seance_in_cinema_GET
      */
+    public function SELECT_FROM_seance_in_cinema_GET() {
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+            if (isset($_GET['id']) && isset($_GET['table']) ) {
+                
+                $table = $_GET['table'];
+                
+                if ($table == 'cinema') {
+                    
+                    $cinema_id = $_GET['id'];
+                    $sql = "SELECT 
+                    seance.`id`,
+                    seance.date,
+                    seance.time,
+                    movie.name as movie,
+                    cinema.name AS cinema
+                    FROM `seance` 
+                    LEFT JOIN movie
+                    ON seance.movie_id = movie.id
+                    LEFT JOIN cinema
+                    ON seance.cinema_id = cinema.id
+                    WHERE cinema.id = $cinema_id";
+                    
+                    $this->callPrintSeanceInCinema($sql,$cinema_id);
+                }        
+            }
+        }
+    }
+    
+    /**
+     * callPrintSeanceInCinema
+     * @param string $sql
+     * @param int $cinema_id
+     */
+    private function callPrintSeanceInCinema($sql, $cinema_id){
+        // Checking whether SELECT succeeded
+        $result = $this->mysqli->query($sql);
+
+        if ($result != FALSE) {
+            $row = $result->fetch_assoc();
+            $cinema = $row["cinema"];
+            if ($cinema) {
+                echo '<br><h3>Seances in cinema ' . $cinema . ':</h3>';
+                $this->printSeance($sql);
+            }
+            else{
+                $sql = 'SELECT * FROM `cinema` WHERE `id` ='. $cinema_id;
+                // Checking whether SELECT succeeded
+                $result = $this->mysqli->query($sql);
+                $row = $result->fetch_assoc();
+                $cinema = $row["name"];
+
+                echo '<br><h3>No seances in cinema ' . $cinema . '</h3>';
+            }
+        } 
+        else {
+            echo '<br><br>Error<br>';
+        }          
+    }
+
+    /**
+    * SELECT_FROM_seance_in_movie
+    */
     public function SELECT_FROM_seance_in_movie() {
         if ($_SERVER['REQUEST_METHOD']==='POST') {
             if ($_POST['submit'] == 'showInMovie'       &&

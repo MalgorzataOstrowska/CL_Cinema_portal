@@ -42,7 +42,7 @@
 
         <?php 
             $sql = $connection->dataFromPOST_cinema();
-            $connection->printCinema($sql); 
+            $connection->printCinema($sql, false, true); 
         ?>
     </body>
     

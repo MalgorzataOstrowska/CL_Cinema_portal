@@ -52,6 +52,7 @@
             <?php 
                 $connection->SELECT_FROM_seance_in_cinema();
                 $connection->SELECT_FROM_seance_in_movie();
+                $connection->SELECT_FROM_seance_in_cinema_GET();
             ?> 
         </div>
         
