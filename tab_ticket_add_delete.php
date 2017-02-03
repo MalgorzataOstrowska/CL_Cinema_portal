@@ -32,7 +32,14 @@
         <?php 
             $connection->INSERT_INTO_ticket();
             $connection->DELETE_fromTable();
-            $sql = "SELECT `id`, `quantity`, `price` FROM `ticket`";
+            $sql = "SELECT
+                    ticket.id,
+                    ticket.quantity,
+                    ticket.price,
+                    payment.type
+                    FROM `ticket` 
+                    LEFT JOIN payment
+                    ON ticket.id = payment.ticket_id";
             $connection->printTicket($sql, true);     
         ?>
         

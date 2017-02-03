@@ -74,7 +74,7 @@ class ConnectionToDatabase {
                 $id = $_GET['id'];
                 $table = $_GET['table'];
 
-                echo $sql = 'DELETE FROM ' . $table . ' WHERE `id` =' . $id;
+                $sql = 'DELETE FROM ' . $table . ' WHERE `id` =' . $id;
 
                 // Checking whether DELETE succeeded
                 $result = $this->mysqli->query($sql);
@@ -334,11 +334,16 @@ class ConnectionToDatabase {
     /**
      * INSERT_INTO_payment
      */
-    public function INSERT_INTO_payment($ticket_id) {
+    public function INSERT_INTO_payment($ticket_id = false) {
         if ($_SERVER['REQUEST_METHOD']==='POST') {
             if (isset($_POST['payment_type'])     && 
-                isset($_POST['payment_date'])        ){
+                isset($_POST['payment_date'])     ){
 
+                if (isset($_POST['ticket_id'])) {
+                    $ticket_id = $_POST['ticket_id'];
+                }
+                
+                
                 $payment_type = $_POST['payment_type'];
                 $payment_date = $_POST['payment_date'];
 
@@ -351,7 +356,7 @@ class ConnectionToDatabase {
                         if (empty($payment_date)) {
 
                             echo 'Payment date: present date was used - ';
-                            echo $payment_date = date("d.m.Y");
+                            echo $payment_date = date("Y.m.d");
                         }
                         $sql = "INSERT INTO `payment` (`id`, `date`, `type`, `ticket_id`) VALUES (NULL,'$payment_date', '$payment_type', '$ticket_id')";
 
@@ -481,20 +486,24 @@ class ConnectionToDatabase {
     /**
      * INSERT_INTO_ticket
      */
-    public function INSERT_INTO_ticket() {
+    public function INSERT_INTO_ticket($seance_id) {
         if ($_SERVER['REQUEST_METHOD']==='POST') {
-            if (isset($_POST['seance'])       &&
+            if (isset($_POST['seance_id'])       &&
                 isset($_POST['quantity'])     && 
                 isset($_POST['price'])        ){
 
-                $seance = $_POST['seance'];
+                //echo $seance = $_POST['seance'];
                 $price = $_POST['price'];
                 $quantity = $_POST['quantity'];
 
-                if (!empty($seance) && !empty($price) && !empty($quantity)) {
+                if($seance_id == -1 && isset($_POST['seance'])){
+                    $seance_id = $_POST['seance'];
+                }
+
+                if (!empty($price) && !empty($quantity)) {
                     if ($price > 0) {
 
-                        $sql = "INSERT INTO `ticket` (`id`, `quantity`, `price`, `seance_id`) VALUES (NULL, '$quantity', '$price', '$seance')";
+                        $sql = "INSERT INTO `ticket` (`id`, `quantity`, `price`, `seance_id`) VALUES (NULL, '$quantity', '$price', '$seance_id')";
                         if ($this->mysqli->query($sql) === TRUE) {
                             echo '<br><br>New ticket added<br><br>';
                             $ticket_id = $this->mysqli->insert_id;
@@ -604,7 +613,6 @@ class ConnectionToDatabase {
     
     public function printBoughtTicket($ticket_id) {
         // Checking whether SELECT succeeded
-        //echo $sql = "SELECT * FROM `ticket` WHERE `id`='$ticket_id'";
         $sql = "SELECT
                 ticket.seance_id,
                 movie.name AS movie,
@@ -679,7 +687,7 @@ class ConnectionToDatabase {
                     echo '<option value="'.$row["id"].'">id = ' . $row["id"]. ', ' .$row["date"].', '.$row["time"].' - '.$row["movie"].' - '.$row["cinema"].'</option>';
 
             }
-            echo '</select>';
+            echo '</select></div>';
         }
 
         else {
@@ -794,7 +802,7 @@ class ConnectionToDatabase {
      * printSeance
      * @param bool $delete
      */
-    public function printSeance($sql, $delete = false) {
+    public function printSeance($sql, $delete = false, $buy = false) {
 
         // Checking whether SELECT succeeded
         $result = $this->mysqli->query($sql);
@@ -812,6 +820,9 @@ class ConnectionToDatabase {
                 if ($delete) {
                     echo    '<th>DELETE</th>';
                 }    
+                if ($buy) {
+                    echo    '<th>BUY A TICKET</th>';
+                }    
                 echo    '</tr>';
 
                 while ($row = $result->fetch_assoc()) {
@@ -823,6 +834,9 @@ class ConnectionToDatabase {
                             <td>' . $row["cinema"] . '</td>';
                     if ($delete) {                     
                         echo '<td><a href="tab_seance_add_delete.php?table=seance&id='. $row["id"] . '">delete</a></td>';
+                    }
+                    if ($buy) {                     
+                        echo '<td><a href="tab_buy_a_ticket.php?table=seance&id='. $row["id"] . '">buy</a></td>';
                     }
                 }
                 echo     '</tr>
@@ -909,7 +923,7 @@ class ConnectionToDatabase {
             $cinema = $row["cinema"];
             if ($cinema) {
                 echo '<br><h3>Seances in cinema ' . $cinema . ':</h3>';
-                $this->printSeance($sql);
+                $this->printSeance($sql, false, true);
             }
             else{
                 $sql = 'SELECT * FROM `cinema` WHERE `id` ='. $cinema_id;
@@ -1001,7 +1015,7 @@ class ConnectionToDatabase {
             $movie = $row["movie"];
             if ($movie) {
                 echo '<br><h3>Seances for movie ' . $movie . ':</h3>';
-                $this->printSeance($sql);
+                $this->printSeance($sql, false, true);
             }
             else{
                 $sql = 'SELECT * FROM `movie` WHERE `id` ='. $movie_id;

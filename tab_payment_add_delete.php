@@ -26,9 +26,14 @@
                     <option value="transfer">Transfer</option>
                     <option value="cash">Cash</option>
                     <option value="card">Card</option>
-                </select><br>
+                </select><br><br>
+                
                 <label>Date</label><br>
-                <input type="date" name="payment_date"><br>
+                <input type="text" name="payment_date" placeholder="yyyy-mm-dd"><br><br>
+                
+                <label>Ticket id</label><br>
+                <input type="text" name="ticket_id"><br><br>
+                
                 <button type="submit" name="submit" value="payment">Wyślij</button>
             </form>
         </div>
