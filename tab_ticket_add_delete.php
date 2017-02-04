@@ -25,6 +25,9 @@
             <input name="quantity" type="number" min="0"/><br>
             <label>Price</label><br>
             <input name="price" type="number" min="0" step="0.01"/><br>
+            <label>Seance id</label><br>
+            <input name="seance_id" type="number"/><br>
+            
             <button type="submit" name="submit" value="ticket">Add</button>
         </form>
     </div>

@@ -486,18 +486,21 @@ class ConnectionToDatabase {
     /**
      * INSERT_INTO_ticket
      */
-    public function INSERT_INTO_ticket($seance_id) {
+    public function INSERT_INTO_ticket($seance_id=-1) {
         if ($_SERVER['REQUEST_METHOD']==='POST') {
             if (isset($_POST['seance_id'])       &&
                 isset($_POST['quantity'])     && 
                 isset($_POST['price'])        ){
-
+                
                 //echo $seance = $_POST['seance'];
                 $price = $_POST['price'];
                 $quantity = $_POST['quantity'];
 
                 if($seance_id == -1 && isset($_POST['seance'])){
                     $seance_id = $_POST['seance'];
+                }
+                if($seance_id == -1 && isset($_POST['seance_id'])){
+                    $seance_id = $_POST['seance_id'];
                 }
 
                 if (!empty($price) && !empty($quantity)) {
